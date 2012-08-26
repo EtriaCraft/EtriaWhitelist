@@ -29,10 +29,10 @@ public class WhitelistSQL extends JavaPlugin implements Listener {
 		final Configuration config = getConfig();
 		
 		config.set("MYSQL.HOST", MYSQL_HOST = config.getString("MYSQL.HOST", "localhost"));
-		config.set("MYSQL.PORT", MYSQL_PORT = config.getInt("MYSQL.PORT", 3306));
-		config.set("MYSQL.USER", MYSQL_USER = config.getString("MYSQL.USER", "user"));
-		config.set("MYSQL.PASS", MYSQL_USER = config.getString("MYSQL.PASS", "password"));
-		config.set("MYSQL.DB", MYSQL_DB = config.getString("MYSQL.DB", "database"));
+        config.set("MYSQL.PORT", MYSQL_PORT = config.getInt("MYSQL.PORT", 3306));
+        config.set("MYSQL.USER", MYSQL_USER = config.getString("MYSQL.USER", "user"));
+        config.set("MYSQL.PASS", MYSQL_PASS = config.getString("MYSQL.PASS", "pass"));
+        config.set("MYSQL.DB", MYSQL_DB = config.getString("MYSQL.DB", "database"));
 		config.set("KICK_MESSAGE", KICK_MESSAGE = config.getString("KICK_MESSAGE", "Sorry, you need to be whitelisted!"));
 		
 		saveConfig();
@@ -49,20 +49,21 @@ public class WhitelistSQL extends JavaPlugin implements Listener {
 	}
 	
 	@EventHandler
-	public void onPlayerLogin(PlayerLoginEvent e) {
-		final String player = e.getPlayer().getName();
-		log.info("[WhitelistSQL] " + player + " is trying to join...");
-		try {
-			ResultSet rs = sql.readQuery("SELECT `playername` FROM `whitelist` WHERE `playername` = '" + player + "' LIMIT 1;");
-			if (!rs.last()) {
-				e.disallow(Result.KICK_WHITELIST, KICK_MESSAGE);
-				log.info("[WhitelistSQL] Kicked " + player +"; not on the whitelist!");
-			} else {
-				log.info("[WhitelistSQL] Allowed " + player + "!");
-			}
-			rs.close();
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
-	}
+    public void onPlayerLogin(PlayerLoginEvent e) {
+        final String player = e.getPlayer().getName();
+        log.info("[WhitelistSQL] " + player + " is trying to join...");
+        try {
+        	ResultSet rs = sql.readQuery("SELECT `playername` FROM `whitelist` WHERE `playername` = '" + player + "' LIMIT 1;");
+            if (!rs.last()) {
+                e.disallow(Result.KICK_WHITELIST, KICK_MESSAGE);
+                log.info("[WhitelistSQL] Kicked " + player +"; not on the whitelist!");
+            } else {
+                log.info("[WhitelistSQL] Allowed " + player + "!");
+            }
+            rs.close();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+    
 }
