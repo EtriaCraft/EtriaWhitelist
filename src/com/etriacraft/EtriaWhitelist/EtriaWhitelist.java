@@ -16,6 +16,7 @@ public class EtriaWhitelist extends JavaPlugin implements Listener {
 		
 		instance = this;
 		config = new Config(this);
+		dbc = new DBConnection();
 		
 	}
 	
